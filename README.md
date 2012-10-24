@@ -1,4 +1,4 @@
-# hooklocker, a self-hosted buffer for webhooks
+# hooklocker, a Heroku-hosted buffer for webhooks
 
 Too lazy to set up a server for your webhooks? Buffer them for later!
 
