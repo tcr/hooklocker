@@ -4,9 +4,13 @@ var app = express();
 app.use(express.logger());
 app.use(express.bodyParser());
 
+// shhhhh
+
 app.get('/', function (req, res) {
 	res.send('it\'s a secret to everybody');
 });
+
+// hooks
 
 var submissions = {};
 
@@ -22,5 +26,9 @@ app.get('/:name', function (req, res) {
 	res.json(submissions[req.params.name] || []);
 });
 
-app.listen(3000);
-console.log('YAY http://localhost:3000/');
+// serve it
+
+var port = process.env.PORT || 5000;
+app.listen(port, function() {
+  console.log("Listening on " + port);
+});
