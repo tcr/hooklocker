@@ -1,8 +1,17 @@
 var express = require('express');
+var mongo = require('mongodb');
+var Server = mongo.Server;
+var Db = mongo.Db;
+
+// the app
 
 var app = express();
 app.use(express.logger());
 app.use(express.bodyParser());
+
+// database
+
+var db, submissions;
 
 // shhhhh
 
@@ -12,23 +21,47 @@ app.get('/', function (req, res) {
 
 // hooks
 
-var submissions = {};
-
 app.post('/:name', function (req, res) {
-	(submissions[req.params.name] = submissions[req.params.name] || []).push({
+	submissions.insert({
+		endpoint: req.params.name,
 		time: new Date(),
 		body: req.body
+	}, {
+		safe: true
+	}, function (err, result) {
+		res.json({
+			"error": err
+		});
 	});
-	res.json({"success": true});
 });
 
 app.get('/:name', function (req, res) {
-	res.json(submissions[req.params.name] || []);
+	submissions.find({
+		endpoint: req.params.name
+	}).toArray(function (err, items) {
+		res.json(items);
+	});
 });
 
 // serve it
 
 var port = process.env.PORT || 5000;
-app.listen(port, function() {
-  console.log("Listening on " + port);
+mongo.connect(process.env.MONGOLAB_URI, {
+	auto_reconnect: true
+}, function (err, _) {
+	db = _;
+
+  // console.log will write to the heroku log which can be accessed via the 
+  // command line as "heroku logs"
+  db.addListener("error", function (err) {
+    console.log("Error connecting to MongoLab:", err);
+  });
+
+	db.collection('submissions', function (err, _) {
+		submissions = _;
+
+	  app.listen(port, function() {
+		  console.log("Listening on " + port);
+		});
+	});
 });
