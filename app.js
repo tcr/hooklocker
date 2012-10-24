@@ -25,7 +25,7 @@ app.post('/:name', function (req, res) {
 	submissions.insert({
 		endpoint: req.params.name,
 		time: new Date(),
-		body: req.body
+		body: JSON.stringify(req.body)
 	}, {
 		safe: true
 	}, function (err, result) {
@@ -40,6 +40,19 @@ app.get('/:name', function (req, res) {
 		endpoint: req.params.name
 	}).toArray(function (err, items) {
 		res.json(items);
+	});
+});
+
+app.delete('/:name', function (req, res) {
+	submissions.find({
+		endpoint: req.params.name
+	}).toArray(function (err, items) {
+		items.forEach(function (item) {
+			submissions.remove(item);
+		});
+		res.json({
+			"error": err
+		});
 	});
 });
 
