@@ -21,6 +21,6 @@ git clone https://github.com/tcr/hooklocker.git
 cd hooklocker
 heroku create
 heroku rename $YOURHOOKLOCKERSUBDOMAIN
-git push -u heroku master
 heroku addons:add mongolab:starter
+git push -u heroku master
 ```
