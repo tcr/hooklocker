@@ -13,3 +13,14 @@ They can be retrieved at any time as JSON:
 And clear them when you're done:
 
     DELETE http://hooklocker/service-name
+
+## installation
+
+```
+git clone https://github.com/tcr/hooklocker.git
+cd hooklocker
+heroku create
+heroku rename $YOURHOOKLOCKERSUBDOMAIN
+git push -u heroku master
+heroku addons:add mongolab:starter
+```
