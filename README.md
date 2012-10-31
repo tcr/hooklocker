@@ -4,15 +4,15 @@ Too lazy to set up a server for your webhooks? Buffer them for later!
 
 Create any webhook url:
 
-    POST http://hooklocker/service-name
+    POST http://hooklocker/:servicename
 
 They can be retrieved at any time as JSON:
 
-    GET http://hooklocker/service-name
+    GET http://hooklocker/:servicename
 
 And clear them when you're done:
 
-    DELETE http://hooklocker/service-name
+    DELETE http://hooklocker/:servicename
 
 ## installation
 
