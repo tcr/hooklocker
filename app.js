@@ -35,18 +35,24 @@ app.post('/:name', function (req, res) {
 	});
 });
 
-app.get('/:name', function (req, res) {
-	submissions.find({
+function searchParams (req) {
+	var search = {
 		endpoint: req.params.name
-	}).toArray(function (err, items) {
+	};
+	if ('max_time' in req.query) {
+		params.time = {$lte: parseInt(req.query.max_time)}
+	}
+	return;
+}
+
+app.get('/:name', function (req, res) {
+	submissions.find(searchParams(req)).toArray(function (err, items) {
 		res.json(items);
 	});
 });
 
 app.delete('/:name', function (req, res) {
-	submissions.find({
-		endpoint: req.params.name
-	}).toArray(function (err, items) {
+	submissions.find(searchParams(req)).toArray(function (err, items) {
 		items.forEach(function (item) {
 			submissions.remove(item);
 		});
