@@ -24,7 +24,7 @@ app.get('/', function (req, res) {
 app.post('/:name', function (req, res) {
 	submissions.insert({
 		endpoint: req.params.name,
-		time: Date().now(),
+		time: Date.now(),
 		body: JSON.stringify(req.body)
 	}, {
 		safe: true
@@ -40,7 +40,7 @@ function searchParams (req) {
 		endpoint: req.params.name
 	};
 	if ('max_time' in req.query) {
-		search.time = {$lte: parseInt(req.query.max_time)}
+		search.time = {$lte: parseInt(req.query.max_time)};
 	}
 	return search;
 }
